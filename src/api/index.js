@@ -3,7 +3,7 @@ const STORAGE_KEY = "items";
 export function saveDataForm(value) {
   const arrItem = getDataPrev();
   arrItem.push(value);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(arrItem));
+  saveData(arrItem);
 }
 
 export function getDataPrev() {
@@ -13,4 +13,8 @@ export function getDataPrev() {
   } catch (error) {
     console.log(error);
   }
+}
+export function saveData(dataArr=[])
+{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dataArr));
 }
