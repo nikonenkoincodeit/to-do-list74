@@ -51,12 +51,36 @@ listEl.addEventListener("click", onRemoveTask);
 
 function onRemoveTask(event) { 
   if (event.target.nodeName !== "BUTTON") return;
-  console.log(event.target.closest(".item"));
-  const parent = event.target.closest(".item");
-  const taskId = parent.dataset.id;
-  console.log(taskId);
+
+  const {taskId, parent} = getTaskId(event);
   parent.remove();
   const filteredData = getDataPrev().filter(({ id }) => id !== Number(taskId));
   console.log(filteredData);
   saveData(filteredData);
+}
+
+
+listEl.addEventListener('click', onTaskSelected);
+function onTaskSelected(event) { 
+  if (event.target.nodeName !== "P") return;
+
+
+  const {taskId, parent} = getTaskId(event);
+
+  console.log(taskId, parent);
+
+  const flag = parent.classList.toggle("checked");
+
+  let tasks =  getDataPrev();
+  const findedData = tasks.find(({ id }) => id === Number(taskId));
+  console.log(findedData);
+  findedData.checked = flag;
+  saveData(tasks);
+}
+
+function getTaskId(event)
+{
+  const parent = event.target.closest(".item");
+  const taskId = parent.dataset.id;
+    return {taskId, parent};
 }
