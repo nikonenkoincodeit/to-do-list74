@@ -47,3 +47,17 @@ function init() {
 function addMarkup(markup) {
   listEl.insertAdjacentHTML("beforeend", markup);
 }
+
+listEl.addEventListener('click', (ev) => {
+    if (ev.target.tagName !== 'BUTTON') {
+        return
+    }
+    const parent = ev.target.closest(".item")
+    const taskId = parent.dataset.id
+    const items = load(STORAGE_KEY)
+    const filterData = items.filter(({ id }) => {
+        return Number(id) !== Number(taskId)
+    })
+    save(STORAGE_KEY, filterData)
+    parent.remove()
+})
